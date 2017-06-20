@@ -1,0 +1,8 @@
+/Users/rgvdmin/Documents/GameWeb/bin/Debug/netcoreapp1.1/GameWeb.deps.json
+/Users/rgvdmin/Documents/GameWeb/bin/Debug/netcoreapp1.1/GameWeb.runtimeconfig.json
+/Users/rgvdmin/Documents/GameWeb/bin/Debug/netcoreapp1.1/GameWeb.runtimeconfig.dev.json
+/Users/rgvdmin/Documents/GameWeb/bin/Debug/netcoreapp1.1/GameWeb.dll
+/Users/rgvdmin/Documents/GameWeb/bin/Debug/netcoreapp1.1/GameWeb.pdb
+/Users/rgvdmin/Documents/GameWeb/obj/Debug/netcoreapp1.1/GameWeb.AssemblyInfo.cs
+/Users/rgvdmin/Documents/GameWeb/obj/Debug/netcoreapp1.1/GameWeb.dll
+/Users/rgvdmin/Documents/GameWeb/obj/Debug/netcoreapp1.1/GameWeb.pdb

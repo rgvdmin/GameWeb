@@ -1,0 +1,14 @@
+﻿@model GameWeb.Models.CharacterModels
+
+<span class="funnyColor">Message</span>
+
+<div style="padding-top-3em;">
+
+    @using(Html.BeginForm("SubmitForm", "Home")) {
+        @Html.TextBoxFor(model => model.name)
+        @Html.TextBoxFor(model => model.option)
+        <button type="submit">Submit</button>
+    }
+
+</div>
+
