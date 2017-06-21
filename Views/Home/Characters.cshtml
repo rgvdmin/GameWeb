@@ -1,5 +1,9 @@
 @model GameWeb.Models.CharactersViewModel
 
+
+@using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
+
+
 @Html.TextBoxFor(model => model.alien.alienName, new { @class = "form-control" })  
 @Html.TextBoxFor(model => model.alien.healthPoints, new { @class = "form-control" })
 @Html.TextBoxFor(model => model.alien.message, new { @class = "form-control" })
@@ -8,10 +12,12 @@
 
 
 <div style="padding-top:3em;">
-<select class="form-control" id="StudentGender" name="StudentGender">
+<select class="form-control" id="selectedWeapon" name="selectedWeapon">
 @for(var i = 0; i < 3; i++){
     <option value=@Model.weapon.weapons[i,1]>@Model.weapon.weapons[i,0]</option>
 }
 </select>
 </div>
+<input type="Submit" value="Save"/>
 
+}

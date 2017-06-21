@@ -5,8 +5,14 @@ namespace GameWeb.Models
 
     public class CharactersViewModel
     {
-        public AlienModel alien = new AlienModel();
-        public WeaponModel weapon = new WeaponModel();
+        public AlienModel alien {get;set;}
+        public WeaponModel weapon {get;set;}
+
+        public string selectedWeapon {get;set;}
+
+
+
+        public string gameStatus {get;set;}
 
     }
 

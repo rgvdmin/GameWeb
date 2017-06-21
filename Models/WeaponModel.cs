@@ -4,7 +4,7 @@ namespace GameWeb.Models
     public class WeaponModel
     {
 
-            public string[,] weapons;
+            public string[,] weapons {get;set;}
 
     }
 
