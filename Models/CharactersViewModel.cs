@@ -10,6 +10,8 @@ namespace GameWeb.Models
 
         public string selectedWeapon {get;set;}
 
+        public AlienDrawModel drawing {get;set;}
+
 
 
         public string gameStatus {get;set;}

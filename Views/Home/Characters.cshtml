@@ -4,12 +4,17 @@
 @using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
 
 
-@Html.TextBoxFor(model => model.alien.alienName, new { @class = "form-control" })  
-@Html.TextBoxFor(model => model.alien.healthPoints, new { @class = "form-control" })
-@Html.TextBoxFor(model => model.alien.message, new { @class = "form-control" })
-@Html.TextBoxFor(model => model.alien.strenght[0], new { @class = "form-control" }) 
-@Html.TextBoxFor(model => model.alien.weakness[1], new { @class = "form-control" }) 
+@Html.TextBoxFor(model => model.alien.alienName, new { @class = "form-control" }) 
 
+
+
+@Html.Display("A wild " + model.alien.alienName +"appeared.")
+@Html.Display(model.drawing.alienDraw)
+@Html.Display("He has "+model.alien.healthPoints+"health points")
+
+<div style="padding-top:3em;">
+
+<h2>Select your weapon below<h2>    
 
 <div style="padding-top:3em;">
 <select class="form-control" id="selectedWeapon" name="selectedWeapon">
