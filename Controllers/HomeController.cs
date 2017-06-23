@@ -49,6 +49,7 @@ namespace GameWeb.Controllers
             model.hero = new HeroModel();
 
             model.hero.heroName = heroName;
+            model.hero.heroLives = 3;
 
 
 

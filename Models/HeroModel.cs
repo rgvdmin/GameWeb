@@ -8,6 +8,11 @@ namespace GameWeb.Models
             get;
             set;
         }
+        public int heroLives
+        { 
+            get; 
+            set;
+        }
 
     }
 

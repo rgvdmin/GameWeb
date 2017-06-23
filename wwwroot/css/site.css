@@ -35,3 +35,7 @@ textarea {
         display: none;
     }
 }
+
+.hide{
+    display: none;
+}

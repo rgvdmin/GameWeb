@@ -1,17 +1,18 @@
 @model GameWeb.Models.CharactersViewModel
 
 <h1>Welcome @Model.hero.heroName</h1>
-<p>You are fighting the might @Model.alien.alienName
+<p style="font-size:2em;">You are fighting the mighty @Model.alien.alienName
    In order to beat the alien, cut the landline so 
    he can't phone home. 
 </p>
 
 @using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
 
-<ul>
-    <li>A Wild @Model.alien.alienName Appears </li>
+@Html.TextBoxFor(model => model.alien.alienName, new { @class = "form-control hide" })
+
+<ul style="list-style: none;">
     <li><img width="100px" height="100px" src=@Model.drawing.alienDraw /></li>
-    <li>@Model.alien.healthPoints</li>
+    <li>Healthpoints Remaining @Model.alien.healthPoints</li>
 </ul>
 
 <div style="padding-top:3em;"></div>
