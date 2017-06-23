@@ -8,6 +8,8 @@ namespace GameWeb.Models
         public AlienModel alien {get;set;}
         public WeaponModel weapon {get;set;}
 
+        public HeroModel hero {get;set;}
+
         public string selectedWeapon {get;set;}
 
         public AlienDrawModel drawing {get;set;}

@@ -1,28 +1,33 @@
 @model GameWeb.Models.CharactersViewModel
 
+<h1>Welcome @Model.hero.heroName</h1>
+<p>You are fighting the might @Model.alien.alienName
+   In order to beat the alien, cut the landline so 
+   he can't phone home. 
+</p>
 
 @using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
 
+<ul>
+    <li>A Wild @Model.alien.alienName Appears </li>
+    <li><img width="100px" height="100px" src=@Model.drawing.alienDraw /></li>
+    <li>@Model.alien.healthPoints</li>
+</ul>
 
-@Html.TextBoxFor(model => model.alien.alienName, new { @class = "form-control" }) 
+<div style="padding-top:3em;"></div>
 
-
-
-@Html.Display("A wild " + model.alien.alienName +"appeared.")
-@Html.Display(model.drawing.alienDraw)
-@Html.Display("He has "+model.alien.healthPoints+"health points")
-
-<div style="padding-top:3em;">
-
-<h2>Select your weapon below<h2>    
+<h2>Select your weapon below</h2>    
 
 <div style="padding-top:3em;">
-<select class="form-control" id="selectedWeapon" name="selectedWeapon">
-@for(var i = 0; i < 3; i++){
-    <option value=@Model.weapon.weapons[i,1]>@Model.weapon.weapons[i,0]</option>
-}
-</select>
+    <select class="form-control" id="selectedWeapon" name="selectedWeapon">
+    @for(var i = 0; i < 3; i++){
+        <option value=@Model.weapon.weapons[i,1]>@Model.weapon.weapons[i,0]</option>
+    }
+    </select>
 </div>
+
 <input type="Submit" value="Save"/>
+
+
 
 }
