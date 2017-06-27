@@ -1,10 +1,7 @@
 @model GameWeb.Models.CharactersViewModel
 
 <h1>Welcome @Model.hero.heroName</h1>
-<p style="font-size:2em;">You are fighting the mighty @Model.alien.alienName
-   In order to beat the alien, cut the landline so 
-   he can't phone home. 
-</p>
+<p style="font-size:2em;"> @Model.alien.warning</p>
 
 @using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
 

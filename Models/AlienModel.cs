@@ -32,5 +32,10 @@ namespace GameWeb.Models
             get;
             set;
         }
+        public string warning
+        {
+            get;
+            set;
+        }
     }
 }
