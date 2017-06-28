@@ -109,96 +109,92 @@ namespace GameWeb.Controllers
                based on the points.
             */
 
-            while (model.alien.healthPoints > 0 && model.hero.heroLives > 0)
-            {
+        //     while (model.alien.healthPoints > 0 && model.hero.heroLives > 0)
+        //     {
 
-                int points = 0;
-                switch (model.selectedWeapon)
+        //         int points = 0;
+        //         switch (model.selectedWeapon)
+        //         {
+        //             case "a":
+        //                 points = Convert.ToInt32(model.weapon.weapons[0, 1]);
+        //                 model.alien.healthPoints = model.alien.healthPoints - points;
+        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
+        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
+        //                 //Inline Condition
+        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
+        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+        //                 break;
+        //             case "b":
+        //                 points = Convert.ToInt32(model.weapon.weapons[1, 1]);
+        //                 model.alien.healthPoints = model.alien.healthPoints + points;
+        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
+        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
+        //                 //Inline Condition
+        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives;
+        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+        //                 break;
+        //             case "c":
+        //                 points = Convert.ToInt32(model.weapon.weapons[1, 1]);
+        //                 model.alien.healthPoints = model.alien.healthPoints - points;
+        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
+        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
+        //                 //Inline Condition
+        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
+        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+        //                 break;
+        //         }
+        //     }
+
+        //     if (model.alien.healthPoints <= 0)
+        //     {
+                
+        //         return View(model);
+        //     }
+        //     else if (model.hero.heroLives <= 0)
+        //     {
+        //         return View(model);
+        //     }
+        //     return View(model);
+        // }
+
+
+
+
+
+
+
+
+            if (Convert.ToInt32(model.selectedWeapon) > 100)
+            {
+                int enemy = 1;
+                model.gameStatus = "You are a hero!";
+                switch (model.alien.alienName)
                 {
-                    case "a":
-                        points = Convert.ToInt32(model.weapon.weapons[0, 1]);
-                        model.alien.healthPoints = model.alien.healthPoints - points;
-                        Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-                        Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-                        //Inline Condition
-                        model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
-                        Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+                    case "Patrick":
+                        enemy = 2;
                         break;
-                    case "b":
-                        points = Convert.ToInt32(model.weapon.weapons[1, 1]);
-                        model.alien.healthPoints = model.alien.healthPoints + points;
-                        Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-                        Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-                        //Inline Condition
-                        model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives;
-                        Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+                    case "Whoopie":
+                        enemy = 3;
                         break;
-                    case "c":
-                        points = Convert.ToInt32(model.weapon.weapons[1, 1]);
-                        model.alien.healthPoints = model.alien.healthPoints - points;
-                        Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-                        Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-                        //Inline Condition
-                        model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
-                        Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
+                    case "GAGA":
+                        enemy = 1;
+                        break;
+                    default:
                         break;
                 }
+                //You have to move on to the next enemy
+                return RedirectToAction("Characters", new { enemy = enemy });
+            }
+            else
+            {
+                model.gameStatus = "You have died!";
             }
 
-            if (model.alien.healthPoints <= 0)
-            {
-                Console.WriteLine("-++----===+===----==+==----===+===----++-");
-                
-                Console.WriteLine("You managed to defeat -[ {0} ]- with {1} lives remaining.", model.alien.alienName , model.hero.heroLives);
-                Console.WriteLine("{0}",model.alien.message);
-                return View(model);
-            }
-            else if (model.hero.heroLives <= 0)
-            {
-                Console.WriteLine("You have expended your stay on this earth... goodbye.");
-                return View(model);
-            }
             return View(model);
         }
+    }}
 
 
 
 
-
-
-
-
-            // if (Convert.ToInt32(model.selectedWeapon) > 100)
-            // {
-            //     int enemy = 1;
-            //     model.gameStatus = "You are a hero!";
-            //     switch (model.alien.alienName)
-            //     {
-            //         case "Patrick":
-            //             enemy = 2;
-            //             break;
-            //         case "Whoopie":
-            //             enemy = 3;
-            //             break;
-            //         case "GAGA":
-            //             enemy = 1;
-            //             break;
-            //         default:
-            //             break;
-            //     }
-            //     //You have to move on to the next enemy
-            //     return RedirectToAction("Characters", new { enemy = enemy });
-            // }
-            // else
-            // {
-            //     model.gameStatus = "You have died!";
-            // }
-
-            //return View(model);
-        }
-    }
-
-
-
-}
 
