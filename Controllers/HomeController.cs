@@ -15,83 +15,106 @@ namespace GameWeb.Controllers
         {
 
             CharactersViewModel model = new CharactersViewModel();
+
+            using (var context = new EFCoreGameWebContext())
+                    {
+                        model.scoreBoard = context.ScoreBoards.ToList();
+
+                    }
+
             model.hero = new HeroModel();
+
+            
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult BeginGame(CharactersViewModel cmodel)
+        public IActionResult BeginGame(CharactersViewModel model)
         {
 
-            return RedirectToAction("Characters", new { enemy = 1, heroName = cmodel.hero.heroName });
-        }
-
-        public IActionResult Characters(int enemy, string heroName)
-        {
-            ChangeEnemy(enemy, heroName);
-            return View(model);
-        }
-
-        private CharactersViewModel ChangeEnemy(int enemy, string heroName)
-        {
-
+            //get names of the players thatwon thet game
 
             
 
-            if (enemy <= 0)
-                enemy = 1;
-
-
             model.alien = new AlienModel();
-            model.weapon = new WeaponModel();
-            model.drawing = new AlienDrawModel();
-            model.hero = new HeroModel();
+        
 
-            model.hero.heroName = heroName;
+            //Default Values
+            model.alien.alienName = "Patrick";
+            model.alien.healthPoints = 1;
             model.hero.heroLives = 3;
 
 
 
-            switch (enemy)
+            return View("Characters", ChangeEnemy(model));
+
+        }
+
+        private CharactersViewModel ChangeEnemy(CharactersViewModel model)
+        {
+            ModelState.Clear(); //Clear the ModelState
+
+            model.weapon = new WeaponModel();
+            model.drawing = new AlienDrawModel();
+
+            if (model.alien.healthPoints <= 0)
             {
-                case 1:
+                switch (model.alien.alienName)
+                {
+                    case "Patrick":
+                        model.alien.alienName = "Whoopie";
+                        break;
+                    case "Whoopie":
+                        model.alien.alienName = "GAGA";
+                        break;
+                    default:
+                        model.alien.alienName = "End";
+                        break;
+                }
+            }
+
+            switch (model.alien.alienName)
+            {
+                case "Patrick":
                     model.alien.alienName = "Patrick";
                     model.alien.strenght = new string[1] { "Freeze (make harder)" };
                     model.alien.weakness = new string[2] { "Torch (it)", "Candle (burn with prayers)" };
-                    model.alien.healthPoints = 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
                     model.alien.message = "you killed patrick...";
                     model.weapon.weapons = new string[3, 2] { { "Torch (it)", "1000" }, { "Freeze (make harder)", "100" }, { "Candle (burn with prayers)", "500" } };
                     model.drawing.alienDraw = "http://emblemsbattlefield.com/uploads/posts/2014/9/evil-patrick-star-spongebob-emblem-tutorial_1.jpg";
                     model.alien.warning = "The rowdy Patrick appeares, what weapons will you use?";
                     break;
-                case 2:
+                case "Whoopie":
 
                     model.alien.alienName = "Whoopie";
                     model.alien.strenght = new string[1] { "Whip Cream (on it)" };
                     model.alien.weakness = new string[2] { "Spoon (her)", "Fork (it)" };
-                    model.alien.healthPoints = 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
                     model.alien.message = "You made her love you so good that she died from broke heart";
 
                     model.weapon.weapons = new string[3, 2] { { "Spoon (her)", "1000" }, { "Whip Cream (on it)", "100" }, { "Fork (it)", "500" } };
-            model.drawing.alienDraw = "http://www.nowyourecook.in/wp-content/uploads/2013/12/DSCN5161_editedTSthumb.jpg";
+                    model.drawing.alienDraw = "http://www.nowyourecook.in/wp-content/uploads/2013/12/DSCN5161_editedTSthumb.jpg";
                     model.alien.warning = "Sum banana whoopie type split things appeared what you gonna do now?";
-                break;
-                case 3:
+                    break;
 
+                case "GAGA":
                     model.alien.alienName = "GAGA";
                     model.alien.strenght = new string[1] { "Vodka (martini)" };
                     model.alien.weakness = new string[2] { "Toothpick (poker face)", "Mouth (smash)" };
-                    model.alien.healthPoints = 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
                     model.alien.message = "You rowdy hurt her and now shes 86'd";
                     model.weapon.weapons = new string[3, 2] { { "Toothpick (poker face)", "1000" }, { "Vodka (martini)", "100" }, { "Mouth (smash)", "500" } };
                     model.drawing.alienDraw = "http://img.photobucket.com/albums/v518/jfissel/evil_olive.png";
                     model.alien.warning = "An olive that named GAGA appeared now what you gonna do?";
                     break;
 
-
-                default: break;
+                default:
+                    break;
             }
+
+
             return model;
 
 
@@ -109,92 +132,64 @@ namespace GameWeb.Controllers
                based on the points.
             */
 
-        //     while (model.alien.healthPoints > 0 && model.hero.heroLives > 0)
-        //     {
 
-        //         int points = 0;
-        //         switch (model.selectedWeapon)
-        //         {
-        //             case "a":
-        //                 points = Convert.ToInt32(model.weapon.weapons[0, 1]);
-        //                 model.alien.healthPoints = model.alien.healthPoints - points;
-        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-        //                 //Inline Condition
-        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
-        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
-        //                 break;
-        //             case "b":
-        //                 points = Convert.ToInt32(model.weapon.weapons[1, 1]);
-        //                 model.alien.healthPoints = model.alien.healthPoints + points;
-        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-        //                 //Inline Condition
-        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives;
-        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
-        //                 break;
-        //             case "c":
-        //                 points = Convert.ToInt32(model.weapon.weapons[1, 1]);
-        //                 model.alien.healthPoints = model.alien.healthPoints - points;
-        //                 Console.WriteLine("Great job! You have hit the enemy with {0} points!", points);
-        //                 Console.WriteLine("Remaining Enemy healthPoints {0}", model.alien.healthPoints);
-        //                 //Inline Condition
-        //                 model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
-        //                 Console.WriteLine("Hero Remaining lives: {0}", model.hero.heroLives);
-        //                 break;
-        //         }
-        //     }
+            int points = Convert.ToInt32(model.selectedWeapon);
 
-        //     if (model.alien.healthPoints <= 0)
-        //     {
-                
-        //         return View(model);
-        //     }
-        //     else if (model.hero.heroLives <= 0)
-        //     {
-        //         return View(model);
-        //     }
-        //     return View(model);
-        // }
-
-
-
-
-
-
-
-
-            if (Convert.ToInt32(model.selectedWeapon) > 100)
+            switch (model.selectedWeapon)
             {
-                int enemy = 1;
-                model.gameStatus = "You are a hero!";
-                switch (model.alien.alienName)
-                {
-                    case "Patrick":
-                        enemy = 2;
-                        break;
-                    case "Whoopie":
-                        enemy = 3;
-                        break;
-                    case "GAGA":
-                        enemy = 1;
-                        break;
-                    default:
-                        break;
-                }
-                //You have to move on to the next enemy
-                return RedirectToAction("Characters", new { enemy = enemy });
+                case "1000":
+                    points = Convert.ToInt32(model.selectedWeapon);
+                    model.alien.healthPoints = model.alien.healthPoints - points;
+
+                    model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
+                    break;
+                case "500":
+                    points = Convert.ToInt32(model.selectedWeapon);
+                    model.alien.healthPoints = model.alien.healthPoints + points;
+
+                    model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
+                    break;
+                case "100":
+                    points = Convert.ToInt32(model.selectedWeapon);
+
+                    model.alien.healthPoints = model.alien.healthPoints - points;
+                    model.hero.heroLives = model.alien.healthPoints > 0 ? model.hero.heroLives - 1 : model.hero.heroLives + 1;
+                    break;
+            }
+
+            if (model.hero.heroLives <= 0)
+            {
+                model.gameStatus = string.Format("Dude! You just died!");
+                return View(model);
             }
             else
             {
-                model.gameStatus = "You have died!";
+                model = ChangeEnemy(model);
+                if (model.alien.alienName != "End")
+                {
+                    return View("Characters", ChangeEnemy(model));
+                }
+                else
+                {
+
+                    // save the name of the player that just won
+                    ScoreBoard scoreBoardModel = new ScoreBoard();
+                    scoreBoardModel.name = model.hero.heroName;
+
+                    using (var context = new EFCoreGameWebContext())
+                    {
+                        context.Add(scoreBoardModel);
+                        context.SaveChanges();
+
+                    }
+
+                    model.gameStatus = string.Format("Dude! You just won!");
+                    return View(model);
+                }
             }
 
-            return View(model);
+
         }
-    }}
 
-
-
-
-
+    }
+}

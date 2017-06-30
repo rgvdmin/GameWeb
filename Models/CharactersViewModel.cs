@@ -14,9 +14,9 @@ namespace GameWeb.Models
 
         public AlienDrawModel drawing {get;set;}
 
-
-
         public string gameStatus {get;set;}
+
+        public List<ScoreBoard> scoreBoard {get;set;}
 
     }
 
