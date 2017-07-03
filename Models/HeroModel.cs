@@ -13,6 +13,11 @@ namespace GameWeb.Models
             get; 
             set;
         }
+        public int age
+        { 
+            get; 
+            set;
+        }
 
     }
 

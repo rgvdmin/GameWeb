@@ -160,6 +160,9 @@ namespace GameWeb.Controllers
             if (model.hero.heroLives <= 0)
             {
                 model.gameStatus = string.Format("Dude! You just died!");
+
+
+
                 return View(model);
             }
             else
@@ -184,10 +187,33 @@ namespace GameWeb.Controllers
                     }
 
                     model.gameStatus = string.Format("Dude! You just won!");
+
+
+
                     return View(model);
                 }
             }
 
+
+        }
+
+        [HttpPost]
+        public IActionResult GetAge(CharactersViewModel model)
+        {
+
+         
+        ScoreBoard scoreBoardModel = new ScoreBoard();
+           scoreBoardModel.age = model.hero.age;
+        using (var context = new EFCoreGameWebContext())
+                    {
+                        context.Add(scoreBoardModel);
+                        context.SaveChanges();
+
+                    }
+
+
+
+            return View("FightEnemy", GetAge(model));
 
         }
 

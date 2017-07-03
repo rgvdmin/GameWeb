@@ -2,11 +2,13 @@
 
 @using (Html.BeginForm("BeginGame","Home",FormMethod.Post)){
     <div style="margin:2em;">
-        <h1>Enter your name</h1>
-        @Html.TextBoxFor(model => model.hero.heroName, new { @class = "form-control" })
+        
+        
+        
 
         <button type="submit">Begin Game</button>
     </div>
+
 
 }
 <h2>Winners!</h2>
@@ -15,6 +17,7 @@
 @foreach(var user in Model.scoreBoard){
   
 <li>@user.name</li>
+<li>@user.age</li>
 }
 </ul>
 
