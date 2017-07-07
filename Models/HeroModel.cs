@@ -1,3 +1,5 @@
+using System;
+
 namespace GameWeb.Models
 {
 
@@ -14,6 +16,11 @@ namespace GameWeb.Models
             set;
         }
         public int age
+        { 
+            get; 
+            set;
+        }
+        public DateTime timePlayed
         { 
             get; 
             set;

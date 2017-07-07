@@ -41,10 +41,15 @@ namespace GameWeb.Controllers
         
 
             //Default Values
+
+
             model.alien.alienName = "Patrick";
             model.alien.healthPoints = 1;
             model.hero.heroLives = 3;
 
+            model.hero.timePlayed = DateTime.Now;
+             
+            
 
 
             return View("Characters", ChangeEnemy(model));
@@ -80,7 +85,7 @@ namespace GameWeb.Controllers
                     model.alien.alienName = "Patrick";
                     model.alien.strenght = new string[1] { "Freeze (make harder)" };
                     model.alien.weakness = new string[2] { "Torch (it)", "Candle (burn with prayers)" };
-                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 1 ? model.alien.healthPoints : 1000;
                     model.alien.message = "you killed patrick...";
                     model.weapon.weapons = new string[3, 2] { { "Torch (it)", "1000" }, { "Freeze (make harder)", "100" }, { "Candle (burn with prayers)", "500" } };
                     model.drawing.alienDraw = "http://emblemsbattlefield.com/uploads/posts/2014/9/evil-patrick-star-spongebob-emblem-tutorial_1.jpg";
@@ -91,7 +96,7 @@ namespace GameWeb.Controllers
                     model.alien.alienName = "Whoopie";
                     model.alien.strenght = new string[1] { "Whip Cream (on it)" };
                     model.alien.weakness = new string[2] { "Spoon (her)", "Fork (it)" };
-                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 1 ? model.alien.healthPoints : 1000;
                     model.alien.message = "You made her love you so good that she died from broke heart";
 
                     model.weapon.weapons = new string[3, 2] { { "Spoon (her)", "1000" }, { "Whip Cream (on it)", "100" }, { "Fork (it)", "500" } };
@@ -103,7 +108,7 @@ namespace GameWeb.Controllers
                     model.alien.alienName = "GAGA";
                     model.alien.strenght = new string[1] { "Vodka (martini)" };
                     model.alien.weakness = new string[2] { "Toothpick (poker face)", "Mouth (smash)" };
-                    model.alien.healthPoints = model.alien.healthPoints > 0 ? model.alien.healthPoints : 1000;
+                    model.alien.healthPoints = model.alien.healthPoints > 1 ? model.alien.healthPoints : 1000;
                     model.alien.message = "You rowdy hurt her and now shes 86'd";
                     model.weapon.weapons = new string[3, 2] { { "Toothpick (poker face)", "1000" }, { "Vodka (martini)", "100" }, { "Mouth (smash)", "500" } };
                     model.drawing.alienDraw = "http://img.photobucket.com/albums/v518/jfissel/evil_olive.png";
@@ -123,9 +128,8 @@ namespace GameWeb.Controllers
 
 
         [HttpPost]
-        public IActionResult FightEnemy(CharactersViewModel model)
+        public JsonResult FightEnemy(CharactersViewModel model)
         {
-
             /*
                Now I can capture the weapon value and the enemy.
                based on the name of the enemy, I can reduce it's health
@@ -160,24 +164,25 @@ namespace GameWeb.Controllers
             if (model.hero.heroLives <= 0)
             {
                 model.gameStatus = string.Format("Dude! You just died!");
-
-
-
-                return View(model);
+                return Json(model);
+                //return View(model);
             }
             else
             {
                 model = ChangeEnemy(model);
-                if (model.alien.alienName != "End")
+                if(model.alien.alienName != "End")
                 {
-                    return View("Characters", ChangeEnemy(model));
-                }
+                    //return View("Characters", ChangeEnemy(model));
+                    return Json(ChangeEnemy(model));
+                    }
                 else
                 {
 
                     // save the name of the player that just won
                     ScoreBoard scoreBoardModel = new ScoreBoard();
                     scoreBoardModel.name = model.hero.heroName;
+                    scoreBoardModel.age = model.hero.age;
+                    scoreBoardModel.timePlayed = DateTime.Now.Second - model.hero.timePlayed.Second;
 
                     using (var context = new EFCoreGameWebContext())
                     {
@@ -187,35 +192,18 @@ namespace GameWeb.Controllers
                     }
 
                     model.gameStatus = string.Format("Dude! You just won!");
+                    //return View(model);
+                    return Json(model);
 
-
-
-                    return View(model);
+                    
                 }
             }
+            return Json("{name: 'value1'}");
 
 
         }
 
-        [HttpPost]
-        public IActionResult GetAge(CharactersViewModel model)
-        {
-
-         
-        ScoreBoard scoreBoardModel = new ScoreBoard();
-           scoreBoardModel.age = model.hero.age;
-        using (var context = new EFCoreGameWebContext())
-                    {
-                        context.Add(scoreBoardModel);
-                        context.SaveChanges();
-
-                    }
-
-
-
-            return View("FightEnemy", GetAge(model));
-
-        }
+       
 
     }
 }

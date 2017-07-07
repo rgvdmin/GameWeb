@@ -8,9 +8,10 @@ using GameWeb;
 namespace GameWeb.Migrations
 {
     [DbContext(typeof(EFCoreGameWebContext))]
-    partial class EFCoreGameWebContextModelSnapshot : ModelSnapshot
+    [Migration("20170704005222_date and time")]
+    partial class dateandtime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");

@@ -8,9 +8,10 @@ using GameWeb;
 namespace GameWeb.Migrations
 {
     [DbContext(typeof(EFCoreGameWebContext))]
-    partial class EFCoreGameWebContextModelSnapshot : ModelSnapshot
+    [Migration("20170703233130_AddednewAge")]
+    partial class AddednewAge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -23,8 +24,6 @@ namespace GameWeb.Migrations
                     b.Property<int>("age");
 
                     b.Property<string>("name");
-
-                    b.Property<int>("timePlayed");
 
                     b.HasKey("id");
 

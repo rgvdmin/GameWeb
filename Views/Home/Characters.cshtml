@@ -1,30 +1,37 @@
 @model GameWeb.Models.CharactersViewModel
 
-<h1>Welcome @Model.hero.heroName</h1>
-<p style="font-size:2em;"> @Model.alien.warning</p>
-@using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
 
-@Html.HiddenFor(model => model.alien.alienName, new { @class = "form-control" })
-@Html.HiddenFor(model => model.alien.healthPoints, new { @class = "form-control" })
-@Html.HiddenFor(model => model.hero.heroLives, new { @class = "form-control" })
-@Html.HiddenFor(model => model.hero.heroName, new { @class = "form-control" })
+<h1 style="display: none" id="GameStatus"></h1>
+<div id="clearArea">
+    <h1 id="welcomeMessage">Welcome @Model.hero.heroName</h1>
+    <p id="alienWarning" style="font-size:2em;"> @Model.alien.warning</p>
+    <h1 class="alieName"></h1>
+    @using (Html.BeginForm("FightEnemy","Home",FormMethod.Post)){
+    @Html.HiddenFor(model => model.alien.alienName, new { @class = "form-control alieName" })
+    @Html.HiddenFor(model => model.alien.healthPoints, new { @class = "form-control healthPoints" })
+    @Html.HiddenFor(model => model.hero.heroLives, new { @class = "form-control heroLives" })
+    @Html.HiddenFor(model => model.hero.heroName, new { @class = "form-control heroName" })
+    @Html.HiddenFor(model => model.hero.age, new { @class = "form-control" })
+    @Html.HiddenFor(model => model.hero.timePlayed, new { @class = "form-control"})
+
 
 <ul style="list-style: none;">
-    <li><img width="100px" height="100px" src=@Model.drawing.alienDraw /></li>
-    <li>Healthpoints Remaining @Model.alien.healthPoints</li>
-</ul>
+        <li><img id="alienDraw" width="100px" height="100px" src=@Model.drawing.alienDraw /></li>
+        <li id="originalHealthPoints">Healthpoints Remaining @Model.alien.healthPoints</li>
+        <li id="newHealthPoints" style="display:none"></li>
+    </ul>
 
 <div style="padding-top:3em;"></div>
 
 <h2>Select your weapon below</h2>    
 
 <div style="padding-top:3em;">
-    <select class="form-control" id="selectedWeapon" name="selectedWeapon">
-    @for(var i = 0; i < 3; i++){
-        <option value=@Model.weapon.weapons[i,1]>@Model.weapon.weapons[i,0]</option>
-    }
-    </select>
-</div>
+        <select id="weapons" class="form-control" id="selectedWeapon" name="selectedWeapon">
+        @for(var i = 0; i < 3; i++){
+            <option value=@Model.weapon.weapons[i,1]>@Model.weapon.weapons[i,0]</option>
+        }
+        </select>
+    </div>
 
 
 <input type="Submit" value="Save"/>
@@ -32,3 +39,71 @@
 
 
 }
+
+</div>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+        //console.log("Starting JQUERY!!!!");
+        //var originalMessage = $("#welcomeMessage").html();
+        //originalMessage += " to the World of OZZZ!";
+        //$("#welcomeMessage").html(originalMessage);
+
+        $("form input").click(function(e){
+            e.preventDefault();
+
+            var formValues = $("form").serialize();
+            //console.log(formValues);
+
+
+            $.ajax({
+                    url: "/Home/FightEnemy",     
+                    dataType: "json",   
+                    method: "POST",
+                    data: formValues,
+                    success: function( response ) {
+                        
+                        if(response.gameStatus){
+                            console.log("we won!");
+                            $("#clearArea").empty();
+                            $("#GameStatus").html(response.gameStatus);
+                            $("#GameStatus").show();
+                            return; //Nothing else below will execute
+                        }
+                        
+                        //console.log( response ); // server response
+                        console.log("Getting back from server");
+                        console.log(response);
+
+                        $("#alienWarning").html(response.alien.warning);
+                        $("#alienDraw").attr('src',response.drawing.alienDraw);
+
+                        //Hide the old health point and show the new one
+                        $("#originalHealthPoints").hide(); //Hide the old points
+                        $("#newHealthPoints").html("Healthpoints Remaining " + response.alien.healthPoints).show(); //populate the new points
+                        
+                        //Changing the hidden fields
+                        $(".alieName").val(response.alien.alienName);
+                        $(".healthPoints").val(response.alien.healthPoints);
+                        $(".heroLives").val(response.hero.heroLives);
+                        $(".heroName").val(response.hero.heroName);
+                      
+                        //Changing the drop down values
+                        $(response.weapon.weapons).each(function(index){
+                            console.log($(this));
+                            
+                            var optionInfo = $("#weapons option")[index];
+                            
+                            var newWeapon = $(this);
+                            
+                            var jQueryOptionInfo = $(optionInfo);  
+                            jQueryOptionInfo.val(newWeapon[1]);
+                            jQueryOptionInfo.text(newWeapon[0]);                   
+  
+                        });
+                    }
+                });
+
+        });
+   });
+</script>
